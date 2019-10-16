@@ -1,20 +1,29 @@
 package com.lambdaschool.school.service;
 
+import com.lambdaschool.school.SchoolApplication;
 import com.lambdaschool.school.model.Course;
 import com.lambdaschool.school.repository.CourseRepository;
 import com.lambdaschool.school.view.CountStudentsInCourses;
+import org.junit.FixMethodOrder;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SchoolApplication.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Service(value = "courseService")
-public class CourseServiceImpl implements CourseService
+public class CourseServiceImplTest implements CourseService
 {
     @Autowired
-    private CourseRepository courserepos;
+    private CourseService courseService;
 
     @Override
     public ArrayList<Course> findAll()
