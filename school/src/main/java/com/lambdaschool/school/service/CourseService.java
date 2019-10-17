@@ -9,7 +9,10 @@ public interface CourseService
 {
     ArrayList<Course> findAll();
 
-    String findCourseById();
+    // Write a unit test for CourseServiceImpl findCourseById
+    Course findCourseById(long id);
+
+    Course findCourseByName(String name);
 
     ArrayList<CountStudentsInCourses> getCountStudentsInCourse();
 

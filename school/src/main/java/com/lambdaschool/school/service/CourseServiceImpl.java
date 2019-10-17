@@ -26,7 +26,12 @@ public class CourseServiceImpl implements CourseService
 
     // findCourseById
     @Override
-    public String findCourseById() {
+    public Course findCourseById(long id) {
+        return courserepos.findCourseByCourseid(id);
+    }
+
+    @Override
+    public Course findCourseByName(String name) {
         return null;
     }
 

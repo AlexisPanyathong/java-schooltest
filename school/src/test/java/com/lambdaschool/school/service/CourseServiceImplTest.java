@@ -2,60 +2,57 @@ package com.lambdaschool.school.service;
 
 import com.lambdaschool.school.SchoolApplication;
 import com.lambdaschool.school.model.Course;
-import com.lambdaschool.school.repository.CourseRepository;
-import com.lambdaschool.school.view.CountStudentsInCourses;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SchoolApplication.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@Service(value = "courseService")
-public class CourseServiceImplTest implements CourseService
-{
+public class CourseServiceImplTest {
     @Autowired
     private CourseService courseService;
 
-    @Override
-    public ArrayList<Course> findAll()
+    @Before
+    public void A_setUp()
     {
-        ArrayList<Course> list = new ArrayList<>();
-        courserepos.findAll().iterator().forEachRemaining(list::add);
-        return list;
+    }
+
+    @After
+    public void B_tearDown()
+    {
     }
 
     // findCourseById
-    @Override
-    public String findCourseById() {
-        return null;
+    @Test
+    public void findCourseById() {
+        assertEquals("Data Science", courseService.findCourseById(1).getCoursename());
     }
 
-    @Override
-    public ArrayList<CountStudentsInCourses> getCountStudentsInCourse()
+    @Test (expected = EntityNotFoundException.class)
+    public void FdeleteNotFound()
     {
-        return courserepos.getCountStudentsInCourse();
+        courseService.delete(100);
+        assertEquals(2, courseService.findAll().size());
     }
 
-    @Transactional
-    @Override
-    public void delete(long id) throws EntityNotFoundException
+
+    @Test
+    public void GdeleteFound()
     {
-        if (courserepos.findById(id).isPresent())
-        {
-            courserepos.deleteCourseFromStudcourses(id);
-            courserepos.deleteById(id);
-        } else
-        {
-            throw new EntityNotFoundException(Long.toString(id));
-        }
+        courseService.delete(10);
+        assertEquals(2, courseService.findAll().size());
     }
 }
