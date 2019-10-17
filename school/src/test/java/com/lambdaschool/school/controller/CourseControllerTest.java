@@ -18,9 +18,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.ArrayList;
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 
 @RunWith(SpringRunner.class)
@@ -86,5 +90,33 @@ public class CourseControllerTest {
 
         assertEquals("Rest API Returns List", er, tr);
     }
+
+    // Add a unit test for addNewCourse
+    @Test
+    public void addNewCourse() throws Exception
+    {
+        String apiUrl = "/courses/course/add";
+
+        String courseName = "Java";
+
+        Instructor i1 = new Instructor("John");
+
+        Course newCourse = new Course(courseName, i1);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String courseString = mapper.writeValueAsString(newCourse);
+
+        Mockito.when(courseService.save(any(Course.class))).thenReturn(newCourse);
+
+        RequestBuilder rb = MockMvcRequestBuilders.post(apiUrl)
+                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+                .content(courseString);
+
+        mockMvc.perform(rb).andExpect(status().isCreated()).andDo(MockMvcResultHandlers.print());
+    }
+
+
+
 }
 
