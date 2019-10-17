@@ -45,14 +45,14 @@ public class CourseServiceImplTest {
     public void FdeleteNotFound()
     {
         courseService.delete(100);
-        assertEquals(2, courseService.findAll().size());
+        assertEquals(6, courseService.findAll().size());
     }
 
 
     @Test
     public void GdeleteFound()
     {
-        courseService.delete(10);
-        assertEquals(2, courseService.findAll().size());
+        courseService.delete(2);
+        assertEquals(5, courseService.findAll().size());
     }
 }
